@@ -130,26 +130,28 @@ export function VoiceprintTool() {
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste anything you've written — a few emails, a post, a paragraph from your last newsletter. The more it sounds like you, the truer the read."
               rows={7}
-              className="w-full resize-none rounded-2xl border border-white/10 bg-ink-800/80 p-5 text-bone leading-relaxed placeholder:text-bone-faint outline-none transition focus:border-fern/50 focus:ring-2 focus:ring-fern/15"
+              className="w-full resize-none rounded-2xl border border-line bg-surface p-5 text-ink leading-relaxed shadow-soft placeholder:text-ink-faint outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15"
             />
-            <div className="pointer-events-none absolute bottom-3 right-4 font-mono text-xs text-bone-faint">
+            <div className="pointer-events-none absolute bottom-3 right-4 font-mono text-xs text-ink-faint">
               {words} words
             </div>
           </div>
 
-          {error && <p className="mt-2 text-sm text-amber-300/90">{error}</p>}
+          {error && <p className="mt-2 text-sm text-amber-600">{error}</p>}
 
           <div className="mt-4 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <button
               onClick={analyze}
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-fern px-6 py-3.5 font-semibold text-ink transition hover:bg-fern-bright"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-soft transition hover:bg-ink/90"
             >
               Get my voiceprint
-              <ArrowRight size={18} className="transition group-hover:translate-x-0.5" />
+              <span className="flex size-5 items-center justify-center rounded-full bg-gold-vivid text-ink">
+                <ArrowRight size={13} className="transition group-hover:translate-x-0.5" />
+              </span>
             </button>
             <button
               onClick={() => setText(SAMPLE)}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 px-5 py-3.5 font-medium text-bone-muted transition hover:border-white/30 hover:text-bone"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-surface px-5 py-3.5 font-medium text-ink-muted transition hover:border-line-strong hover:text-ink"
             >
               <Wand2 size={16} />
               Try a sample
@@ -160,9 +162,9 @@ export function VoiceprintTool() {
 
       {/* Loading */}
       {stage === "loading" && (
-        <div className="animate-fade-up rounded-2xl border border-white/10 bg-ink-800/80 p-8">
-          <div className="flex items-center gap-3 text-bone">
-            <Loader2 size={20} className="animate-spin text-fern" />
+        <div className="animate-fade-up rounded-2xl border border-line bg-surface p-8 shadow-soft">
+          <div className="flex items-center gap-3 text-ink">
+            <Loader2 size={20} className="animate-spin text-accent" />
             <span className="font-serif text-2xl">{STATUS[statusIdx]}</span>
           </div>
           <div className="mt-6 space-y-3">

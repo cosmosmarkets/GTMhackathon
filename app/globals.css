@@ -3,38 +3,38 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,
 body {
-  background-color: #07100c;
+  background-color: #f7f4ed;
 }
 
-/* Lightfern ambient canopy — a soft fern-light glow behind everything */
+/* Warm, painterly light — a soft wash from the top, nothing neon. */
 body {
   background-image:
-    radial-gradient(60rem 40rem at 15% -10%, rgba(52, 211, 153, 0.10), transparent 60%),
-    radial-gradient(50rem 40rem at 100% 0%, rgba(15, 118, 110, 0.12), transparent 55%);
+    radial-gradient(60rem 42rem at 50% -16%, rgba(110, 127, 91, 0.06), transparent 60%),
+    radial-gradient(46rem 38rem at 100% 0%, rgba(199, 154, 62, 0.05), transparent 58%);
   background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(52, 211, 153, 0.28);
-  color: #f4f2ec;
+  background: rgba(110, 127, 91, 0.20);
+  color: #1c1a16;
 }
 
 /* Tidy, on-brand scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1a3026 transparent;
+  scrollbar-color: #d6d0c1 transparent;
 }
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #1a3026;
+  background: #d6d0c1;
   border-radius: 9999px;
 }
 
@@ -46,9 +46,9 @@ body {
 .shimmer-bg {
   background: linear-gradient(
     90deg,
-    rgba(26, 48, 38, 0.4) 25%,
-    rgba(52, 211, 153, 0.18) 50%,
-    rgba(26, 48, 38, 0.4) 75%
+    rgba(230, 225, 213, 0.6) 25%,
+    rgba(110, 127, 91, 0.14) 50%,
+    rgba(230, 225, 213, 0.6) 75%
   );
   background-size: 200% 100%;
 }

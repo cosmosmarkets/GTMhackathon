@@ -21,20 +21,20 @@ export function PortraitRows({
   className?: string;
 }) {
   return (
-    <div className={`space-y-px overflow-hidden rounded-2xl border border-white/10 bg-ink-800 ${className}`}>
+    <div className={`divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft ${className}`}>
       {ROWS.map(({ key, label, Icon }) => (
         <div
           key={key}
-          className="flex gap-4 bg-ink-800 p-5 transition hover:bg-ink-700/60"
+          className="flex gap-4 bg-surface p-5 transition hover:bg-surface-muted"
         >
-          <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-fern/20 bg-fern/5 text-fern">
+          <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-accent-soft text-accent-deep">
             <Icon size={17} />
           </div>
           <div>
-            <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-fern/80">
+            <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent-deep">
               {label}
             </div>
-            <p className="mt-1.5 leading-relaxed text-bone/90">{portrait[key]}</p>
+            <p className="mt-1.5 leading-relaxed text-ink/90">{portrait[key]}</p>
           </div>
         </div>
       ))}

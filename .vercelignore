@@ -1,6 +1,6 @@
 node_modules
 .next
-data
+data/leads.json
 role-a-core-tool.md
 role-b-data-champion-engine.md
 role-c-search-geo.md

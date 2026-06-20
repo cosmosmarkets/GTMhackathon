@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { generateVoiceprint } from "@/lib/voiceprint";
+import { generateVoiceprintLLM } from "@/lib/prompts/voiceprint";
 
 // POST /api/voiceprint
 // Body: { text: string }
@@ -25,6 +26,10 @@ export async function POST(req: Request) {
     );
   }
 
-  const voiceprint = generateVoiceprint(text);
+  // Prefer D's Claude prompt when a key is configured; the local analyzer is a
+  // zero-dependency fallback so the tool always works (and the demo never
+  // hard-fails on an API hiccup).
+  const llm = await generateVoiceprintLLM(text);
+  const voiceprint = llm ?? generateVoiceprint(text);
   return NextResponse.json(voiceprint);
 }

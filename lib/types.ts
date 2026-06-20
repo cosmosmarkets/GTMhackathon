@@ -19,6 +19,18 @@ export interface Voiceprint {
   traits: string[];
 }
 
+// ROLE D DELIVERABLE #2 output — the champion score (hand to B). The back
+// office IS allowed to rank; this never touches the user-facing tool.
+export interface ChampionScore {
+  score: number; // 0–100 overall champion-fit
+  breakdown: {
+    mission_fit: { score: number; reason: string };
+    email_volume: { score: number; reason: string };
+    network_effect: { score: number; reason: string };
+  };
+  headline: string; // one line: why they are (or aren't) a champion
+}
+
 // The lead row — LOCKED WITH B at 0:00. Form writes it, B's table reads it.
 export interface LeadRow {
   id: string;

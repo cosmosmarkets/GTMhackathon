@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import type { LeadRow } from "@/lib/types";
+import { kvConfigured, appendLead } from "@/lib/store/kv";
 
 // POST /api/lead
 // Receives the capture-gate submission and persists the LOCKED row shape
@@ -102,7 +103,18 @@ export async function POST(req: Request) {
     created_at: new Date().toISOString(),
   };
 
-  // 1) Supabase (B's table) — preferred.
+  // 1) Vercel KV (Upstash Redis) — the primary store. One Vercel integration,
+  // no schema. See VERCEL-SETUP.md.
+  if (kvConfigured()) {
+    try {
+      const total = await appendLead(row);
+      return NextResponse.json({ ok: true, id: row.id, store: "kv", rank: total, total });
+    } catch (err) {
+      console.error("[lead] KV write failed, falling back:", err);
+    }
+  }
+
+  // 2) Supabase (optional alternative).
   const supaUrl = process.env.SUPABASE_URL;
   const supaKey =
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;

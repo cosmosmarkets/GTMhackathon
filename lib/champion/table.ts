@@ -3,6 +3,7 @@ import path from "path";
 import type { ChampionScore, LeadRow } from "@/lib/types";
 import { scoreChampion } from "@/lib/prompts/champion-score";
 import { getAnthropic } from "@/lib/llm/anthropic";
+import { kvConfigured, listLeads as kvListLeads } from "@/lib/store/kv";
 import seedData from "@/data/champions.seed.json";
 
 // ===========================================================================
@@ -126,7 +127,16 @@ function heuristicScore(input: {
 // --- Store readers ---------------------------------------------------------
 
 async function readLeads(): Promise<LeadRow[]> {
-  // 1) Supabase (B's store)
+  // 1) Vercel KV (Upstash Redis) — the primary store.
+  if (kvConfigured()) {
+    try {
+      return await kvListLeads();
+    } catch (err) {
+      console.error("[champions] KV read failed:", err);
+    }
+  }
+
+  // 2) Supabase (optional alternative)
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
   const table = process.env.SUPABASE_LEADS_TABLE || "leads";

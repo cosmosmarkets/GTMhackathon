@@ -202,7 +202,7 @@ export function VoiceprintTool() {
               <div className="mt-6 flex flex-wrap items-center gap-[22px]">
                 <button
                   onClick={analyze}
-                  className="relative border border-ink bg-ink px-[30px] py-[15px] font-label text-[14px] tracking-[0.2em] text-cream shadow-press transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-press-hover"
+                  className="relative border border-ink bg-ink px-[30px] py-[15px] font-label text-[14px] tracking-[0.2em] text-cream shadow-press transition-[transform,box-shadow] duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-press-hover"
                   style={{ transitionTimingFunction: "cubic-bezier(.34,1.56,.64,1)" }}
                 >
                   &#10087;&nbsp;&nbsp;Take the Reading

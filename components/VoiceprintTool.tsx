@@ -121,37 +121,51 @@ export function VoiceprintTool() {
 
   return (
     <div>
-      {/* Input */}
+      {/* Input — a ruled specimen frame with corner ticks and a measurement
+          readout, not a floating card. */}
       {stage === "idle" && (
         <div className="animate-fade-up">
-          <div className="relative">
+          <div className="group relative border border-line-strong bg-surface-muted/50 transition focus-within:border-accent">
+            {/* corner ticks */}
+            <span className="pointer-events-none absolute -left-px -top-px h-3 w-3 border-l border-t border-accent" />
+            <span className="pointer-events-none absolute -right-px -top-px h-3 w-3 border-r border-t border-accent" />
+            <span className="pointer-events-none absolute -bottom-px -left-px h-3 w-3 border-b border-l border-accent" />
+            <span className="pointer-events-none absolute -bottom-px -right-px h-3 w-3 border-b border-r border-accent" />
+
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste anything you've written — a few emails, a post, a paragraph from your last newsletter. The more it sounds like you, the truer the read."
               rows={7}
-              className="w-full resize-none rounded-2xl border border-line bg-surface p-5 text-ink leading-relaxed shadow-soft placeholder:text-ink-faint outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15"
+              className="w-full resize-none border-0 bg-transparent p-5 leading-relaxed text-ink outline-none placeholder:text-ink-faint"
             />
-            <div className="pointer-events-none absolute bottom-3 right-4 font-mono text-xs text-ink-faint">
-              {words} words
+            <div className="flex items-center justify-between border-t border-line px-5 py-2.5 font-mono text-xs text-ink-faint">
+              <span className="uppercase tracking-[0.18em]">Specimen</span>
+              <span className="tabular-nums">
+                <span className={words >= 40 ? "text-accent-deep" : "text-ink"}>
+                  {words}
+                </span>{" "}
+                / 40 words
+              </span>
             </div>
           </div>
 
-          {error && <p className="mt-2 text-sm text-amber-600">{error}</p>}
+          {error && <p className="mt-3 font-mono text-xs text-clay">{error}</p>}
 
-          <div className="mt-4 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+          <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
             <button
               onClick={analyze}
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium text-paper shadow-soft transition hover:bg-ink/90"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-lg bg-ink px-6 py-3.5 font-medium text-paper transition hover:bg-ink/90"
             >
               Get my voiceprint
-              <span className="flex size-5 items-center justify-center rounded-full bg-gold-vivid text-ink">
-                <ArrowRight size={13} className="transition group-hover:translate-x-0.5" />
-              </span>
+              <ArrowRight
+                size={16}
+                className="text-gold-vivid transition group-hover:translate-x-0.5"
+              />
             </button>
             <button
               onClick={() => setText(SAMPLE)}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-surface px-5 py-3.5 font-medium text-ink-muted transition hover:border-line-strong hover:text-ink"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-line-strong bg-transparent px-5 py-3.5 font-medium text-ink-muted transition hover:border-ink hover:text-ink"
             >
               <Wand2 size={16} />
               Try a sample

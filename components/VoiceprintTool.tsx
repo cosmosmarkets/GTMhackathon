@@ -5,7 +5,6 @@ import type { Voiceprint } from "@/lib/types";
 import { Teaser } from "./Teaser";
 import { FullReveal } from "./FullReveal";
 import type { CaptureValues } from "./CaptureGate";
-import { ArrowRight, Loader2, Wand2 } from "lucide-react";
 
 type Stage = "idle" | "loading" | "teaser" | "revealed";
 
@@ -121,74 +120,175 @@ export function VoiceprintTool() {
 
   return (
     <div>
-      {/* Input — a ruled specimen frame with corner ticks and a measurement
-          readout, not a floating card. */}
+      {/* Idle — the "Sow" specimen input. A ruled herbarium sheet: divider
+          label, a sepia specimen frame with inner corner ticks, an engraved
+          CTA, and a pressed fern specimen alongside. */}
       {stage === "idle" && (
-        <div className="animate-fade-up">
-          <div className="group relative border border-line-strong bg-surface-muted/50 transition focus-within:border-accent">
-            {/* corner ticks */}
-            <span className="pointer-events-none absolute -left-px -top-px h-3 w-3 border-l border-t border-accent" />
-            <span className="pointer-events-none absolute -right-px -top-px h-3 w-3 border-r border-t border-accent" />
-            <span className="pointer-events-none absolute -bottom-px -left-px h-3 w-3 border-b border-l border-accent" />
-            <span className="pointer-events-none absolute -bottom-px -right-px h-3 w-3 border-b border-r border-accent" />
-
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Paste anything you've written — a few emails, a post, a paragraph from your last newsletter. The more it sounds like you, the truer the read."
-              rows={7}
-              className="w-full resize-none border-0 bg-transparent p-5 leading-relaxed text-ink outline-none placeholder:text-ink-faint"
+        <div className="animate-vp-rise">
+          {/* section divider */}
+          <div className="mb-2 flex items-center justify-center gap-[18px]">
+            <span
+              className="h-px flex-1"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, rgba(42,32,22,.4))",
+              }}
             />
-            <div className="flex items-center justify-between border-t border-line px-5 py-2.5 font-mono text-xs text-ink-faint">
-              <span className="uppercase tracking-[0.18em]">Specimen</span>
-              <span className="tabular-nums">
-                <span className={words >= 40 ? "text-accent-deep" : "text-ink"}>
-                  {words}
-                </span>{" "}
-                / 40 words
-              </span>
-            </div>
+            <span className="whitespace-nowrap font-label text-[13px] tracking-[0.32em] text-accent-deep">
+              &#10087;&nbsp;&nbsp;A Reading of Your Voice&nbsp;&nbsp;&#10087;
+            </span>
+            <span
+              className="h-px flex-1"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(42,32,22,.4), transparent)",
+              }}
+            />
           </div>
 
-          {error && <p className="mt-3 font-mono text-xs text-clay">{error}</p>}
+          <div className="grid grid-cols-1 items-stretch gap-10 md:grid-cols-[1.62fr_1fr]">
+            {/* left — the specimen input */}
+            <div className="pt-3.5">
+              {/* specimen frame */}
+              <div
+                className="relative max-w-[700px] border border-line-strong"
+                style={{ background: "rgba(252,247,235,.55)" }}
+              >
+                {/* inner corner ticks */}
+                <span className="pointer-events-none absolute left-1.5 top-1.5 h-3 w-3 border-l border-t border-accent" />
+                <span className="pointer-events-none absolute right-1.5 top-1.5 h-3 w-3 border-r border-t border-accent" />
+                <span className="pointer-events-none absolute bottom-1.5 left-1.5 h-3 w-3 border-b border-l border-accent" />
+                <span className="pointer-events-none absolute bottom-1.5 right-1.5 h-3 w-3 border-b border-r border-accent" />
 
-          <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-            <button
-              onClick={analyze}
-              className="group inline-flex items-center justify-center gap-2.5 rounded-lg bg-ink px-6 py-3.5 font-medium text-paper transition hover:bg-ink/90"
-            >
-              Get my voiceprint
-              <ArrowRight
-                size={16}
-                className="text-gold-vivid transition group-hover:translate-x-0.5"
+                {/* header row */}
+                <div className="flex items-center justify-between border-b border-line px-[18px] py-[11px]">
+                  <span className="font-label text-[11px] tracking-[0.26em] text-ink-soft">
+                    Specimen &#8212; your own words
+                  </span>
+                  <span className="font-label text-[11px] tracking-[0.22em] text-clay">
+                    No. 001
+                  </span>
+                </div>
+
+                <textarea
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  placeholder="Paste a few emails, a post, a paragraph from your last letter. The more it sounds like you, the truer the reading."
+                  rows={8}
+                  className="w-full resize-none border-0 bg-transparent p-[22px] font-body text-[18px] leading-[1.62] text-ink outline-none placeholder:text-ink-faint"
+                />
+
+                {/* footer meta row */}
+                <div className="flex items-center justify-between border-t border-line px-[18px] py-[9px]">
+                  <span
+                    className="font-body text-[15px] italic"
+                    style={{ color: words >= 40 ? "#39492c" : "#a08a66" }}
+                  >
+                    {words} words gathered
+                  </span>
+                  <span className="font-body text-[14px] italic text-clay">
+                    forty needed
+                  </span>
+                </div>
+              </div>
+
+              {error && (
+                <p className="mt-3 font-body text-[15px] italic text-clay">
+                  {error}
+                </p>
+              )}
+
+              {/* buttons row */}
+              <div className="mt-6 flex flex-wrap items-center gap-[22px]">
+                <button
+                  onClick={analyze}
+                  className="relative border border-ink bg-ink px-[30px] py-[15px] font-label text-[14px] tracking-[0.2em] text-cream shadow-press transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-press-hover"
+                  style={{ transitionTimingFunction: "cubic-bezier(.34,1.56,.64,1)" }}
+                >
+                  &#10087;&nbsp;&nbsp;Take the Reading
+                </button>
+                <button
+                  onClick={() => setText(SAMPLE)}
+                  className="font-body text-[18px] italic text-rust underline underline-offset-4 transition hover:[text-underline-offset:6px]"
+                >
+                  or read a sample hand
+                </button>
+              </div>
+            </div>
+
+            {/* right — pressed fern specimen + plate label */}
+            <div className="relative hidden min-h-[540px] md:block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/fern-frond.svg"
+                alt="pressed fern specimen"
+                className="absolute bottom-[-30px] right-[4%] h-[640px] animate-vp-frond opacity-90"
               />
-            </button>
-            <button
-              onClick={() => setText(SAMPLE)}
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-line-strong bg-transparent px-5 py-3.5 font-medium text-ink-muted transition hover:border-ink hover:text-ink"
-            >
-              <Wand2 size={16} />
-              Try a sample
-            </button>
+              <div
+                className="absolute bottom-[18px] left-0 w-[215px] border border-line-strong px-4 py-3.5 shadow-plate"
+                style={{ background: "rgba(252,247,235,.78)", transform: "rotate(-2.5deg)" }}
+              >
+                <div className="border-b border-line pb-1.5 font-label text-[10px] tracking-[0.26em] text-clay">
+                  Plate I
+                </div>
+                <div className="mt-2 font-display text-[24px] font-semibold italic leading-none text-ink">
+                  Filix
+                </div>
+                <div className="mt-[3px] font-body text-[14px] text-ink-soft">
+                  the common fern
+                </div>
+                <div className="mt-2.5 font-body text-[13px] italic leading-[1.35] text-ink-faint">
+                  Pressed by hand, from your own writing.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Loading */}
+      {/* Loading — the "Reading" block. Centered seedling with a soft glow,
+          an italic headline, a filling progress rule, and the cycling status. */}
       {stage === "loading" && (
-        <div className="animate-fade-up rounded-2xl border border-line bg-surface p-8 shadow-soft">
-          <div className="flex items-center gap-3 text-ink">
-            <Loader2 size={20} className="animate-spin text-accent" />
-            <span className="font-serif text-2xl">{STATUS[statusIdx]}</span>
+        <div className="flex animate-vp-fade flex-col items-center justify-center py-[30px] text-center">
+          <div className="font-label text-[12px] tracking-[0.34em] text-ink-soft">
+            The Reading Is Underway
           </div>
-          <div className="mt-6 space-y-3">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="shimmer-bg h-3 rounded animate-shimmer"
-                style={{ width: `${[92, 78, 85][i]}%` }}
-              />
-            ))}
+
+          <div className="relative my-7 mb-2 h-[168px] w-[160px]">
+            <div
+              className="absolute inset-0 animate-vp-glow rounded-full"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(57,73,44,.16), transparent 68%)",
+              }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/seedling.svg"
+              alt="seedling"
+              className="absolute inset-0 m-auto h-[168px] w-[160px] animate-vp-sway"
+              style={{ transformOrigin: "70px 138px" }}
+            />
+          </div>
+
+          <h2 className="mt-1 max-w-[16ch] font-display text-[clamp(34px,3.6vw,54px)] font-medium italic leading-[1.05] text-ink">
+            Pressing your words, line by line
+          </h2>
+
+          <div
+            className="relative my-8 mb-4 h-px"
+            style={{ width: "min(440px, 70vw)", background: "rgba(42,32,22,.25)" }}
+          >
+            <div
+              className="absolute left-0 top-[-1px] h-[3px] bg-accent-deep"
+              style={{
+                animation: "vp-fill 2.6s cubic-bezier(.5,0,.3,1) forwards",
+              }}
+            />
+          </div>
+
+          <div className="min-h-[1.4em] font-body text-[18px] italic text-ink-soft">
+            {STATUS[statusIdx]}
           </div>
         </div>
       )}

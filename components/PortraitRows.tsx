@@ -1,18 +1,18 @@
 import type { VoiceprintPortrait } from "@/lib/types";
-import { AudioLines, Drama, PenLine, Type, LayoutList } from "lucide-react";
 
 const ROWS: {
   key: keyof VoiceprintPortrait;
   label: string;
-  Icon: typeof AudioLines;
+  numeral: string;
 }[] = [
-  { key: "rhythm", label: "Rhythm", Icon: AudioLines },
-  { key: "tone", label: "Tone", Icon: Drama },
-  { key: "signatureMoves", label: "Signature moves", Icon: PenLine },
-  { key: "lexicalCharacter", label: "Lexical character", Icon: Type },
-  { key: "structure", label: "Structure", Icon: LayoutList },
+  { key: "rhythm", label: "Rhythm", numeral: "I." },
+  { key: "tone", label: "Tone", numeral: "II." },
+  { key: "signatureMoves", label: "Signature moves", numeral: "III." },
+  { key: "lexicalCharacter", label: "Lexical character", numeral: "IV." },
+  { key: "structure", label: "Structure", numeral: "V." },
 ];
 
+// The dark Roman-numeral portrait ledger used inside the Bloom reveal.
 export function PortraitRows({
   portrait,
   className = "",
@@ -21,20 +21,37 @@ export function PortraitRows({
   className?: string;
 }) {
   return (
-    <div className={`divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-soft ${className}`}>
-      {ROWS.map(({ key, label, Icon }) => (
+    <div className={className}>
+      {ROWS.map(({ key, label, numeral }, i) => (
         <div
           key={key}
-          className="flex gap-4 bg-surface p-5 transition hover:bg-surface-muted"
+          className="grid grid-cols-[38px_1fr] gap-4 py-4"
+          style={{
+            borderTop: "1px solid rgba(236,227,207,.2)",
+            ...(i === ROWS.length - 1
+              ? { borderBottom: "1px solid rgba(236,227,207,.2)" }
+              : {}),
+          }}
         >
-          <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/20 bg-accent-soft text-accent-deep">
-            <Icon size={17} />
+          <div
+            className="font-display text-[26px] italic leading-none"
+            style={{ color: "#D8B566" }}
+          >
+            {numeral}
           </div>
           <div>
-            <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent-deep">
+            <div
+              className="font-label text-[11px]"
+              style={{ letterSpacing: ".22em", color: "#7D9359" }}
+            >
               {label}
             </div>
-            <p className="mt-1.5 leading-relaxed text-ink/90">{portrait[key]}</p>
+            <p
+              className="mt-1.5 font-body text-[16px] leading-[1.55]"
+              style={{ color: "rgba(236,227,207,.92)" }}
+            >
+              {portrait[key]}
+            </p>
           </div>
         </div>
       ))}

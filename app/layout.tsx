@@ -1,35 +1,41 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, EB_Garamond, Marcellus_SC } from "next/font/google";
 import "./globals.css";
 
-const display = Instrument_Serif({
+// Display serif — the Voiceprint wordmark and oversized headlines.
+const display = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Inter({
+// Body serif — the running prose of the reading room.
+const body = EB_Garamond({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   variable: "--font-body",
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
+// Small-caps label face — the engraved Marcellus labels and buttons.
+const label = Marcellus_SC({
   subsets: ["latin"],
-  variable: "--font-mono",
+  weight: "400",
+  variable: "--font-label",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Voiceprint — by Lightfern",
+  title: "Voiceprint — A Lightfern Reading Room",
   description:
-    "Paste anything you've written and see your voice mapped back to you: your rhythm, your signature moves, your archetype. Then keep it in every email with Lightfern.",
+    "Paste anything you've written and we read your real voice back, drawn true — your rhythm, your signature moves, your archetype. Then Lightfern keeps that voice in every email.",
   openGraph: {
-    title: "What does your writing voice sound like?",
+    title: "What's your writing voice?",
     description:
-      "Paste anything you've written and get your voiceprint — your rhythm, signature moves, and voice archetype. By Lightfern.",
+      "A reading of your voice. Paste what you've written and get your voiceprint — rhythm, signature moves, and archetype. A Lightfern reading room.",
     type: "website",
   },
 };
@@ -42,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${display.variable} ${body.variable} ${mono.variable} font-sans bg-paper text-ink antialiased`}
+        className={`${display.variable} ${body.variable} ${label.variable} font-body bg-paper text-ink antialiased`}
       >
         {children}
       </body>

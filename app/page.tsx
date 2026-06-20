@@ -51,7 +51,12 @@ export default function Home() {
       <footer className="mt-20 border-t border-white/10 pt-6 text-sm text-bone-faint">
         <div className="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
           <Logo className="opacity-80" />
-          <span>Your voice, in every email. · lightfern.ai</span>
+          <div className="flex items-center gap-4">
+            <a href="/geo" className="transition hover:text-bone">
+              Answers
+            </a>
+            <span>Your voice, in every email. · lightfern.ai</span>
+          </div>
         </div>
       </footer>
     </main>

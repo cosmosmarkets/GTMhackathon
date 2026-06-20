@@ -1,9 +1,11 @@
 /* ─────────────────────────────────────────────────────────────
    ONE PLACE TO SWAP THE LIVE TOOL URL.
-   When Role A's voiceprint app is deployed, paste its Vercel link
-   below and every page (button + embed) updates automatically.
+   These answer pages are served from the same Vercel deployment as
+   the voiceprint MVP (this app's root), so the tool lives at "/".
+   To point at a separately-hosted tool, paste its full URL here and
+   every page (button + embed) updates automatically.
    ───────────────────────────────────────────────────────────── */
-window.VOICEPRINT_URL = "https://voiceprint-lightfern.vercel.app"; // ← PLACEHOLDER: replace with the live app link
+window.VOICEPRINT_URL = "/"; // same-origin MVP root
 
 /* Wires up every [data-voiceprint-link] href and every
    [data-voiceprint-embed] iframe on the page. Loaded at end of body. */

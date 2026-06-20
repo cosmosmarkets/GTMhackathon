@@ -4,6 +4,7 @@ import type { ChampionScore, LeadRow } from "@/lib/types";
 import { scoreChampion } from "@/lib/prompts/champion-score";
 import { getAnthropic } from "@/lib/llm/anthropic";
 import seedData from "@/data/champions.seed.json";
+import { getKv, kvReadLeads } from "@/lib/store/kv";
 
 // ===========================================================================
 // ROLE B — step 4: the champion table. Reads every source (hand-seeds + live
@@ -126,7 +127,16 @@ function heuristicScore(input: {
 // --- Store readers ---------------------------------------------------------
 
 async function readLeads(): Promise<LeadRow[]> {
-  // 1) Supabase (B's store)
+  // 1) Vercel KV / Upstash Redis (the deployed default — matches /api/lead)
+  if (getKv()) {
+    try {
+      return await kvReadLeads();
+    } catch (err) {
+      console.error("[champions] kv read failed:", err);
+    }
+  }
+
+  // 2) Supabase (B's store)
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
   const table = process.env.SUPABASE_LEADS_TABLE || "leads";
@@ -141,7 +151,7 @@ async function readLeads(): Promise<LeadRow[]> {
       console.error("[champions] supabase read failed:", err);
     }
   }
-  // 2) Local file (dev only)
+  // 3) Local file (dev only)
   try {
     const file = path.join(process.cwd(), "data", "leads.json");
     return JSON.parse(await fs.readFile(file, "utf8")) as LeadRow[];

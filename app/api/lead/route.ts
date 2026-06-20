@@ -2,17 +2,20 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 import type { LeadRow } from "@/lib/types";
+import { kvPushLead, getKv } from "@/lib/store/kv";
 
 // POST /api/lead
 // Receives the capture-gate submission and persists the LOCKED row shape
 // (see lib/types.ts → LeadRow):
 //   { id, email, role, handle, writing_sample, voiceprint_json, created_at }
 //
-// Three persistence paths, tried in order — the first one configured wins,
+// Four persistence paths, tried in order — the first one configured wins,
 // and every path degrades gracefully so capture NEVER hard-fails in a demo:
-//   1. Supabase  — set SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY (B's table).
-//   2. Forward   — set LEAD_FORWARD_URL to a B-owned endpoint that inserts.
-//   3. Local     — /data/leads.json (dev only; not writable on Vercel).
+//   1. Vercel KV — set KV_REST_API_URL + KV_REST_API_TOKEN (Upstash/KV
+//                  integration; the deployed default).
+//   2. Supabase  — set SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY (B's table).
+//   3. Forward   — set LEAD_FORWARD_URL to a B-owned endpoint that inserts.
+//   4. Local     — /data/leads.json (dev only; not writable on Vercel).
 //
 // HANDOFF FOR B: the agreed row maps 1:1 to columns. See HANDOFF-A-to-B.md
 // for the ready-to-run `create table` and the exact JSON A sends.
@@ -102,7 +105,17 @@ export async function POST(req: Request) {
     created_at: new Date().toISOString(),
   };
 
-  // 1) Supabase (B's table) — preferred.
+  // 1) Vercel KV / Upstash Redis — preferred (serverless-writable, no SQL).
+  if (getKv()) {
+    try {
+      const total = await kvPushLead(row);
+      return NextResponse.json({ ok: true, id: row.id, store: "kv", rank: total, total });
+    } catch (err) {
+      console.error("[lead] kv insert failed, falling back:", err);
+    }
+  }
+
+  // 2) Supabase (B's table).
   const supaUrl = process.env.SUPABASE_URL;
   const supaKey =
     process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
@@ -115,7 +128,7 @@ export async function POST(req: Request) {
     }
   }
 
-  // 2) Forward to a B-owned endpoint.
+  // 3) Forward to a B-owned endpoint.
   const forwardUrl = process.env.LEAD_FORWARD_URL;
   if (forwardUrl) {
     try {
@@ -142,7 +155,7 @@ export async function POST(req: Request) {
     }
   }
 
-  // 3) Local fallback (dev only).
+  // 4) Local fallback (dev only).
   let total = 1;
   try {
     await fs.mkdir(DATA_DIR, { recursive: true });

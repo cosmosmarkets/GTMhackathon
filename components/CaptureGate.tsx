@@ -24,7 +24,8 @@ export function CaptureGate({
   const [touched, setTouched] = useState(false);
 
   const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim());
-  const valid = emailOk && role.trim().length > 0 && handle.trim().length > 0;
+  const handleOk = handle.trim().length === 0 || handle.trim().startsWith("https://");
+  const valid = emailOk && role.trim().length > 0;
 
   function handle_submit(e: React.FormEvent) {
     e.preventDefault();
@@ -68,19 +69,14 @@ export function CaptureGate({
           className={field}
           aria-label="Role"
         />
-        <div className="relative">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-faint">
-            @
-          </span>
-          <input
-            type="text"
-            placeholder="yourhandle"
-            value={handle.replace(/^@+/, "")}
-            onChange={(e) => setHandle(e.target.value)}
-            className={`${field} pl-8`}
-            aria-label="Social handle"
-          />
-        </div>
+        <input
+          type="url"
+          placeholder="linkedin.com/in/yourname"
+          value={handle}
+          onChange={(e) => setHandle(e.target.value)}
+          className={field}
+          aria-label="LinkedIn URL"
+        />
       </div>
 
       {error && <p className="text-xs text-clay">{error}</p>}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const display = Instrument_Serif({
@@ -10,7 +10,7 @@ const display = Instrument_Serif({
   display: "swap",
 });
 
-const body = DM_Sans({
+const body = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${display.variable} ${body.variable} ${mono.variable} font-sans bg-ink text-bone antialiased`}
+        className={`${display.variable} ${body.variable} ${mono.variable} font-sans bg-paper text-ink antialiased`}
       >
         {children}
       </body>

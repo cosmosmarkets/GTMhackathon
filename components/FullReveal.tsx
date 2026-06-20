@@ -44,19 +44,19 @@ export function FullReveal({
     <div className="animate-fade-up space-y-6">
       {/* Headline reveal */}
       <div className="text-center">
-        <div className="font-mono text-[0.7rem] uppercase tracking-[0.25em] text-fern/80">
+        <div className="font-mono text-[0.7rem] uppercase tracking-[0.25em] text-accent-deep">
           Your voice archetype
         </div>
-        <h2 className="mt-2 font-serif text-5xl leading-none text-bone sm:text-6xl">
+        <h2 className="mt-2 font-serif text-5xl leading-none text-ink sm:text-6xl">
           {voiceprint.archetype}
         </h2>
-        <p className="mx-auto mt-4 max-w-xl font-serif text-xl italic text-bone/90 text-balance">
+        <p className="mx-auto mt-4 max-w-xl font-serif text-xl italic text-ink/85 text-balance">
           “{voiceprint.signature}”
         </p>
 
         {typeof rank === "number" && rank > 0 && (
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-fern/30 bg-fern/5 px-4 py-1.5 text-sm text-fern-bright">
-            <Trophy size={15} />
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-1.5 text-sm text-ink shadow-soft">
+            <Trophy size={15} className="text-gold" />
             You're #{rank}
             {typeof total === "number" && total > 0 ? ` of ${total}` : ""} on the
             board
@@ -71,38 +71,38 @@ export function FullReveal({
         <div className="flex flex-wrap items-center justify-center gap-3">
           <button
             onClick={share}
-            className="inline-flex items-center gap-2 rounded-xl bg-fern px-5 py-3 font-semibold text-ink transition hover:bg-fern-bright"
+            className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-medium text-paper shadow-soft transition hover:bg-ink/90"
           >
             {copied ? <Check size={17} /> : <Share2 size={17} />}
             {copied ? "Copied" : "Share my voiceprint"}
           </button>
           <button
             onClick={onReset}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-5 py-3 font-medium text-bone-muted transition hover:border-white/30 hover:text-bone"
+            className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-5 py-3 font-medium text-ink-muted transition hover:border-line-strong hover:text-ink"
           >
             <RotateCcw size={16} />
             Try another sample
           </button>
         </div>
-        <p className="inline-flex items-center gap-1.5 text-xs text-bone-faint">
+        <p className="inline-flex items-center gap-1.5 text-xs text-ink-faint">
           <Camera size={13} /> Screenshot the card above to post it.
         </p>
       </div>
 
       {/* The full portrait */}
       <div className="pt-2">
-        <div className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-bone-faint">
+        <div className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-ink-faint">
           The full portrait
         </div>
         <PortraitRows portrait={voiceprint.portrait} />
       </div>
 
       {/* Lightfern CTA */}
-      <div className="rounded-3xl border border-fern/25 bg-gradient-to-br from-ink-700 to-ink-800 p-7 text-center">
-        <p className="font-serif text-2xl text-bone text-balance">
+      <div className="rounded-3xl bg-surface-dark p-7 text-center shadow-lift">
+        <p className="font-serif text-2xl text-paper text-balance">
           This is your voice. Lightfern keeps it in every email.
         </p>
-        <p className="mx-auto mt-2 max-w-md text-bone-muted">
+        <p className="mx-auto mt-2 max-w-md text-paper/70">
           AI outreach that still sounds like you — because it's trained on the
           voiceprint you just unlocked.
         </p>
@@ -110,9 +110,12 @@ export function FullReveal({
           href="https://lightfern.ai"
           target="_blank"
           rel="noreferrer"
-          className="mt-5 inline-flex items-center gap-2 rounded-xl bg-fern px-6 py-3 font-semibold text-ink transition hover:bg-fern-bright"
+          className="group mt-5 inline-flex items-center gap-2 rounded-full bg-paper px-6 py-3 font-medium text-ink transition hover:bg-paper/90"
         >
           Keep my voice with Lightfern
+          <span className="flex size-5 items-center justify-center rounded-full bg-gold-vivid text-ink transition group-hover:translate-x-0.5">
+            →
+          </span>
         </a>
       </div>
     </div>

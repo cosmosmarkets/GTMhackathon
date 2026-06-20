@@ -1,31 +1,22 @@
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
+    <span className={`inline-flex items-center gap-2.5 ${className}`}>
+      {/* Lightfern mark — the single continuous curling frond stroke */}
       <svg
         width="22"
         height="22"
-        viewBox="0 0 24 24"
+        viewBox="0 0 18 18"
         fill="none"
         aria-hidden="true"
-        className="shrink-0"
+        className="shrink-0 text-accent"
       >
-        {/* a small fern frond */}
         <path
-          d="M12 22C12 22 12 9 19 4"
+          d="M.39 16.2C13.58 12.72 11.29.1 6.48 2.07c-4.94 2.03 0 18.26 10.65 9.13"
           stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          className="text-fern"
-        />
-        <path
-          d="M12 18.5c2.2.2 4.2-1 5-3M12.6 14.8c2.1.4 4-.6 5-2.6M13.7 11.2c1.9.6 3.7 0 4.9-1.7M15 8c1.6.7 3.1.4 4.3-.8"
-          stroke="currentColor"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          className="text-fern/70"
+          strokeWidth="2.51"
         />
       </svg>
-      <span className="font-sans font-semibold tracking-tight text-bone">
+      <span className="font-serif text-[1.4rem] leading-none tracking-[-0.01em] text-ink">
         Lightfern
       </span>
     </span>

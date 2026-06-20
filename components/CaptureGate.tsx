@@ -34,11 +34,11 @@ export function CaptureGate({
   }
 
   const field =
-    "w-full rounded-xl border border-white/10 bg-ink-700/70 px-4 py-3 text-bone placeholder:text-bone-faint outline-none transition focus:border-fern/60 focus:ring-2 focus:ring-fern/20";
+    "w-full rounded-xl border border-line bg-surface-muted px-4 py-3 text-ink placeholder:text-ink-faint outline-none transition focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/20";
 
   return (
     <form onSubmit={handle_submit} className="space-y-3">
-      <div className="flex items-center gap-2 text-sm text-fern-bright">
+      <div className="flex items-center gap-2 text-sm text-accent-deep">
         <Lock size={15} />
         <span className="font-medium">Unlock your full portrait, archetype & rank</span>
       </div>
@@ -55,7 +55,7 @@ export function CaptureGate({
           aria-label="Email"
         />
         {touched && !emailOk && (
-          <p className="mt-1 text-xs text-amber-300/90">Enter a valid email.</p>
+          <p className="mt-1 text-xs text-clay">Enter a valid email.</p>
         )}
       </div>
 
@@ -69,7 +69,7 @@ export function CaptureGate({
           aria-label="Role"
         />
         <div className="relative">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-bone-faint">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-faint">
             @
           </span>
           <input
@@ -83,12 +83,12 @@ export function CaptureGate({
         </div>
       </div>
 
-      {error && <p className="text-xs text-amber-300/90">{error}</p>}
+      {error && <p className="text-xs text-clay">{error}</p>}
 
       <button
         type="submit"
         disabled={submitting}
-        className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-fern px-5 py-3.5 font-semibold text-ink transition hover:bg-fern-bright disabled:opacity-60"
+        className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 font-medium text-paper shadow-soft transition hover:bg-ink/90 disabled:opacity-60"
       >
         {submitting ? (
           <>
@@ -100,7 +100,7 @@ export function CaptureGate({
         )}
       </button>
 
-      <p className="text-center text-xs text-bone-faint">
+      <p className="text-center text-xs text-ink-faint">
         No spam. We'll only reach out about early access to Lightfern.
       </p>
     </form>

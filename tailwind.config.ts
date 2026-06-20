@@ -8,68 +8,115 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Lightfern brand system — warm, painterly, premium.
-        // Surfaces: warm cream paper, raised white cards.
+        // ── Voiceprint Specimen — a Lightfern reading room ──────────────
+        // Surfaces: a clean light cream ground (no aged paper), raised insets.
         paper: {
-          DEFAULT: "#F7F4ED", // page canvas — warm cream
-          subtle: "#EFEBE0", // recessed bands
+          DEFAULT: "#F5EFE1", // page canvas — clean light cream
+          subtle: "#EFE7D3", // recessed bands
+          deep: "#E7DCC4", // strongest cream fill
         },
         surface: {
-          DEFAULT: "#FFFFFF", // cards
-          muted: "#FBF9F3", // quiet fills / insets
-          dark: "#1C1A16", // inverted footer / dark sections
+          DEFAULT: "#FCF7EC", // card / specimen inset
+          muted: "#F8F2E4", // quiet fills
+          dark: "#14160E", // the dark "bloom" reveal
+          panel: "#1B1E13", // raised panel on the dark reveal
         },
-        // Content: warm obsidian scale.
+        // Content: warm sepia-ink scale.
         ink: {
-          DEFAULT: "#1C1A16", // primary text / obsidian
-          muted: "#6A655B", // secondary text
-          faint: "#9A9488", // tertiary / captions
+          DEFAULT: "#2A2016", // primary text
+          muted: "#4A3F2E", // secondary text
+          soft: "#6B5D44", // tertiary / labels
+          faint: "#8A7A5A", // captions
         },
-        // Hairline borders (warm).
+        // Hairline borders (warm sepia, used at low alpha inline too).
         line: {
-          DEFAULT: "#E6E1D5",
-          strong: "#D6D0C1",
+          DEFAULT: "rgba(42,32,22,0.45)",
+          soft: "rgba(42,32,22,0.30)",
+          strong: "rgba(42,32,22,0.60)",
         },
-        // Primary brand accent — soft sage green.
+        // Primary brand accent — deep forest green.
         accent: {
-          DEFAULT: "#6E7F5B",
-          deep: "#4F5E3E", // text on light / hover
-          soft: "#EBF0E2", // tint background
+          DEFAULT: "#39492C",
+          deep: "#39492C",
+          soft: "#E9E6D2", // tint background
+          dim: "#7D9359", // muted sage (on dark)
         },
-        // Secondary accents from the brand palette.
+        // Secondary accents.
+        rust: "#6E3B2E", // sienna — links, plate numerals
+        clay: "#A7795C", // terracotta — captions / "No. 001"
         gold: {
           DEFAULT: "#C79A3E",
-          vivid: "#D7A62B",
+          light: "#D8B566", // on dark
+          pale: "#DDC789", // archetype italics on dark
         },
-        clay: "#B5594A", // warm red accent
+        cream: {
+          DEFAULT: "#ECE3CF", // text on the dark reveal
+          soft: "#B6A983", // muted text on dark
+        },
       },
       fontFamily: {
+        display: ["var(--font-display)", "Cormorant Garamond", "Georgia", "serif"],
+        body: ["var(--font-body)", "EB Garamond", "Georgia", "serif"],
+        label: ["var(--font-label)", "Marcellus SC", "Georgia", "serif"],
+        // back-compat aliases used by older markup
         serif: ["var(--font-display)", "Georgia", "serif"],
-        sans: ["var(--font-body)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        sans: ["var(--font-body)", "Georgia", "serif"],
+        mono: ["var(--font-label)", "Georgia", "serif"],
+      },
+      letterSpacing: {
+        label: "0.26em",
+        wide: "0.2em",
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(28,26,22,0.04), 0 8px 24px -14px rgba(28,26,22,0.12)",
-        lift: "0 2px 4px rgba(28,26,22,0.05), 0 28px 56px -24px rgba(28,26,22,0.20)",
+        // Hard offset "letterpress" shadow for the dark engraved buttons.
+        press: "inset 0 0 0 1px rgba(239,227,204,.22), 4px 4px 0 0 rgba(42,32,22,.32)",
+        "press-hover": "inset 0 0 0 1px rgba(239,227,204,.30), 6px 6px 0 0 rgba(42,32,22,.36)",
+        plate: "2px 3px 0 0 rgba(42,32,22,.16)",
+        soft: "0 1px 2px rgba(42,32,22,0.05), 0 10px 28px -16px rgba(42,32,22,0.18)",
+        lift: "0 2px 4px rgba(42,32,22,0.06), 0 40px 80px -40px rgba(0,0,0,0.8)",
       },
       keyframes: {
-        "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(16px)" },
+        "vp-rise": {
+          "0%": { opacity: "0", transform: "translateY(18px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(110,127,91,0.0)" },
-          "50%": { boxShadow: "0 0 0 4px rgba(110,127,91,0.10)" },
+        "vp-fade": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
+        "vp-pulse": {
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "0.85" },
+        },
+        "vp-sway": {
+          "0%, 100%": { transform: "rotate(-2.2deg)" },
+          "50%": { transform: "rotate(2.2deg)" },
+        },
+        "vp-glow": {
+          "0%, 100%": { opacity: "0.4" },
+          "50%": { opacity: "0.72" },
+        },
+        "vp-bloom": {
+          "0%": { opacity: "0", transform: "translateY(26px) scale(0.985)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        "vp-frond": {
+          "0%, 100%": { transform: "rotate(-1.1deg) translateY(0)" },
+          "50%": { transform: "rotate(1.1deg) translateY(-6px)" },
         },
       },
       animation: {
-        "fade-up": "fade-up 0.7s cubic-bezier(0.22,1,0.36,1) both",
-        "glow-pulse": "glow-pulse 3.5s ease-in-out infinite",
-        shimmer: "shimmer 2.2s linear infinite",
+        // primary entrances
+        "vp-rise": "vp-rise 0.8s cubic-bezier(0.22,1,0.36,1) both",
+        "vp-fade": "vp-fade 0.6s ease both",
+        "vp-bloom": "vp-bloom 0.9s cubic-bezier(0.22,1,0.36,1) both",
+        // ambient loops
+        "vp-sway": "vp-sway 4.5s ease-in-out infinite",
+        "vp-glow": "vp-glow 6s ease-in-out infinite",
+        "vp-pulse": "vp-pulse 3s ease-in-out infinite",
+        "vp-frond": "vp-frond 7s ease-in-out infinite",
+        // back-compat alias (old markup referenced `fade-up`)
+        "fade-up": "vp-rise 0.7s cubic-bezier(0.22,1,0.36,1) both",
       },
     },
   },

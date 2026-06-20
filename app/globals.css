@@ -6,49 +6,100 @@
   color-scheme: light;
 }
 
+/* Clean cream ground — no paper texture. A soft, lifted parchment, not aged. */
 html,
 body {
-  background-color: #f7f4ed;
+  background-color: #f5efe1;
 }
 
-/* Warm, painterly light — a soft wash from the top, nothing neon. */
+/* Warm, painterly light — a faint wash from the top corners, nothing neon. */
 body {
   background-image:
-    radial-gradient(60rem 42rem at 50% -16%, rgba(110, 127, 91, 0.06), transparent 60%),
-    radial-gradient(46rem 38rem at 100% 0%, rgba(199, 154, 62, 0.05), transparent 58%);
+    radial-gradient(62rem 44rem at 50% -18%, rgba(57, 73, 44, 0.05), transparent 60%),
+    radial-gradient(46rem 38rem at 100% 0%, rgba(199, 154, 62, 0.045), transparent 58%);
   background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(110, 127, 91, 0.20);
-  color: #1c1a16;
+  background: rgba(57, 73, 44, 0.22);
+  color: #2a2016;
 }
 
 /* Tidy, on-brand scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #d6d0c1 transparent;
+  scrollbar-color: #cdbf9f transparent;
 }
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #d6d0c1;
+  background: #cdbf9f;
   border-radius: 9999px;
 }
 
 .text-balance {
   text-wrap: balance;
 }
+.text-pretty {
+  text-wrap: pretty;
+}
 
-/* Shimmer used on the loading state */
-.shimmer-bg {
-  background: linear-gradient(
-    90deg,
-    rgba(230, 225, 213, 0.6) 25%,
-    rgba(110, 127, 91, 0.14) 50%,
-    rgba(230, 225, 213, 0.6) 75%
-  );
-  background-size: 200% 100%;
+/* ── Voiceprint Specimen motion system ─────────────────────────────────
+   The named animations from the Reading Room design. Keyframes live here so
+   every stage shares one vocabulary; Tailwind exposes them as `animate-*`. */
+@keyframes vp-rise {
+  0% { opacity: 0; transform: translateY(18px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes vp-fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes vp-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+@keyframes vp-draw {
+  0% { stroke-dashoffset: 220; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes vp-sway {
+  0%, 100% { transform: rotate(-2.2deg); }
+  50% { transform: rotate(2.2deg); }
+}
+@keyframes vp-fill {
+  0% { width: 4%; }
+  100% { width: 100%; }
+}
+@keyframes vp-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.72; }
+}
+@keyframes vp-bloom {
+  0% { opacity: 0; transform: translateY(26px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* A gentle living-frond drift for the pressed specimen on the idle page. */
+@keyframes vp-frond {
+  0%, 100% { transform: rotate(-1.1deg) translateY(0); }
+  50% { transform: rotate(1.1deg) translateY(-6px); }
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #a99a78;
+  opacity: 1;
+}
+
+/* Reduced-motion: honour the user's setting, kill the looping ambience. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

@@ -1,27 +1,35 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Instrument_Serif, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const display = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
+const body = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-body",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Voiceprint — read your voice back to you",
+  title: "Voiceprint — by Lightfern",
   description:
-    "Paste anything you've written. Voiceprint reads it back to you — your rhythm, your signature moves, your voice archetype. A mirror, not a meter. By Lightfern.",
+    "Paste anything you've written and see your voice mapped back to you: your rhythm, your signature moves, your archetype. Then keep it in every email with Lightfern.",
   openGraph: {
-    title: "Voiceprint by Lightfern",
-    description: "Paste your writing. We'll read it back to you.",
+    title: "What does your writing voice sound like?",
+    description:
+      "Paste anything you've written and get your voiceprint — your rhythm, signature moves, and voice archetype. By Lightfern.",
     type: "website",
   },
 };
@@ -32,8 +40,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+    <html lang="en">
+      <body
+        className={`${display.variable} ${body.variable} ${mono.variable} font-sans bg-ink text-bone antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

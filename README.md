@@ -1,72 +1,46 @@
-# Voiceprint
+# Voiceprint — by Lightfern (Role A)
 
-A viral web tool for **Lightfern**. Paste your writing; it reads you back to
-yourself — a descriptive portrait of how you write (rhythm, tone, signature
-moves, lexical character, structure), a **voice archetype** (e.g. "The
-Storyteller"), and a one-line signature. Share the result, drop your email.
+The user-facing voiceprint tool + capture gate. Paste your writing → see a
+glimpse → drop email/role/handle → unlock your full portrait, archetype, and
+shareable card. **The tool is a mirror, not a judge — it never scores.**
 
-> **The one rule:** this is a **mirror, not a judge**. It describes; it never
-> scores, ranks, grades, or calls writing "generic / slop / AI". No numbers
-> anywhere. Find what's interesting in every voice.
-
-## Stack
-
-- **Next.js** (App Router) + **TypeScript** + **Tailwind CSS**
-- Analysis runs **100% client-side** via `lib/voiceprint.ts` — no API route, no
-  LLM, no server call.
-- **Supabase** JS client (browser, anon key) for storing submissions and
-  reading the public voice wall.
-- Deploy target: **Vercel**.
-
-## Getting started
+## Run it
 
 ```bash
 npm install
-cp .env.local.example .env.local   # fill in your Supabase values
-npm run dev
+npm run dev      # http://localhost:3000  (uses next default port)
 ```
 
-Open http://localhost:3000.
+No API keys needed: the voiceprint engine and lead store both run locally.
 
-### Supabase setup
+## The flow (state machine in `components/VoiceprintTool.tsx`)
 
-1. Create a Supabase project.
-2. Run [`supabase-schema.sql`](./supabase-schema.sql) in the SQL editor. It
-   creates the `submissions` table (RLS: anon may only INSERT) and the public
-   `voice_wall` view (anon-readable, no email/raw text exposed).
-3. Copy **Project Settings → API** values into `.env.local`:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+`idle` (paste box) → `loading` → `teaser` (glimpse + locked preview + gate) →
+`revealed` (archetype + signature + share card + full portrait + Lightfern CTA).
 
-The portrait works without Supabase; only the email capture and voice wall
-need it.
+## Handoff contracts
 
-## Flow
+These are the seams. Both sides are stubbed so Role A is demoable solo; swap in
+the real thing with no front-end changes.
 
+### From D — the voiceprint engine
+- Endpoint: `POST /api/voiceprint` `{ text }` → `Voiceprint` (see `lib/types.ts`).
+- Today it's a real local text-analysis engine (`lib/voiceprint.ts`) that derives
+  the portrait from rhythm, punctuation, and lexical fingerprint — so every result
+  is genuinely personal, offline.
+- To swap in Claude: replace the handler body in `app/api/voiceprint/route.ts`,
+  keep the `Voiceprint` response shape identical. UI keeps working.
+
+### With B — the capture store (schema LOCKED)
 ```
-Paste  →  Portrait (archetype + signature line + waveform + 4 blocks)  →  Capture (email)
-                                   ↘  Share card (1080×1080 PNG)
-/wall  →  the room's voiceprints (gallery, never a leaderboard)
+{ id, email, role, handle, writing_sample, voiceprint_json, created_at }
 ```
+- Endpoint: `POST /api/lead` validates and persists this row.
+- Default: writes to `/data/leads.json` and returns `{ rank, total }` (newest-on-board).
+- To forward to B: set `LEAD_FORWARD_URL` (+ optional `LEAD_FORWARD_KEY`). The route
+  POSTs the same row to B and passes through B's `{ rank, total }` to the reveal.
 
-## Structure
-
-```
-app/
-  page.tsx          # paste → portrait → capture (single-page flow with state)
-  wall/page.tsx     # the voice wall (reads the voice_wall view)
-  layout.tsx        # Fraunces + Inter fonts, metadata
-components/
-  PasteCard, ArchetypeHero, VoiceSignature, ToneChips,
-  PortraitBlock, CTACard, CaptureForm, ShareCard, Decor
-lib/
-  voiceprint.ts     # the analysis engine (provided — math is not edited)
-  supabase.ts       # browser client from env vars
-```
-
-## Editing the portraits
-
-Archetype names, taglines, and descriptor copy live at the top of
-`lib/voiceprint.ts`. Tune the **copy** and **affinity weights** to make every
-portrait feel flattering, specific, and true. Leave the feature-extraction math
-alone.
+## Stack
+Next.js 14 (App Router) · Tailwind · lucide-react · Instrument Serif / DM Sans /
+JetBrains Mono. Deploys to Vercel as-is (`/data` is the only local-only bit —
+once B's store is wired, nothing touches the filesystem).

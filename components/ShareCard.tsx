@@ -1,130 +1,52 @@
-"use client";
+import { forwardRef } from "react";
+import type { Voiceprint } from "@/lib/types";
 
-import { useRef, useState } from "react";
-import { toPng } from "html-to-image";
-import type { Voiceprint } from "@/lib/voiceprint";
-import VoiceSignature from "./VoiceSignature";
-import { SplatterGreen, FlowerRed, Leaf } from "./Decor";
+// The screenshot-friendly card. Designed to look good captured on a phone.
+export const ShareCard = forwardRef<HTMLDivElement, { voiceprint: Voiceprint }>(
+  function ShareCard({ voiceprint }, ref) {
+    return (
+      <div
+        ref={ref}
+        className="relative overflow-hidden rounded-3xl border border-fern/25 bg-ink-800 p-8 sm:p-10"
+        style={{
+          backgroundImage:
+            "radial-gradient(40rem 24rem at 110% -20%, rgba(52,211,153,0.16), transparent 60%), radial-gradient(30rem 20rem at -10% 120%, rgba(15,118,110,0.18), transparent 55%)",
+        }}
+      >
+        <div className="flex items-center justify-between text-xs font-mono uppercase tracking-[0.2em] text-bone-faint">
+          <span>Voiceprint</span>
+          <span className="text-fern/80">Lightfern</span>
+        </div>
 
-/**
- * ShareCard — the viral asset. A 1080×1080 composition that travels alone.
- * Rendered on screen scaled down; exported to PNG at full size via html-to-image.
- */
-
-export default function ShareCard({ result }: { result: Voiceprint }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [downloading, setDownloading] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  async function download() {
-    if (!cardRef.current || downloading) return;
-    setDownloading(true);
-    try {
-      const dataUrl = await toPng(cardRef.current, {
-        width: 1080,
-        height: 1080,
-        pixelRatio: 1,
-        cacheBust: true,
-        backgroundColor: "#FAF7F0",
-      });
-      const link = document.createElement("a");
-      link.download = "my-voiceprint.png";
-      link.href = dataUrl;
-      link.click();
-    } catch {
-      // swallow — share is a bonus, never blocks the demo
-    } finally {
-      setDownloading(false);
-    }
-  }
-
-  async function copyLink() {
-    try {
-      const url =
-        typeof window !== "undefined" ? window.location.origin : "lightfern.com";
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // ignore
-    }
-  }
-
-  const tone = result.tone[0];
-
-  return (
-    <div>
-      {/* Visible, scaled preview. The exported node is the inner 1080px card. */}
-      <div className="mx-auto w-full max-w-[360px] overflow-hidden rounded-card shadow-card">
-        <div
-          className="origin-top-left"
-          style={{ width: 360, height: 360, transform: "scale(0.3333)", transformOrigin: "top left" }}
-        >
-          <div
-            ref={cardRef}
-            style={{ width: 1080, height: 1080 }}
-            className="relative flex flex-col justify-between overflow-hidden bg-paper p-20"
-          >
-            <SplatterGreen className="pointer-events-none absolute -right-20 -top-24 h-[520px] w-[520px] opacity-[0.1]" />
-            <FlowerRed className="pointer-events-none absolute bottom-24 right-24 h-28 w-28 opacity-80" />
-            <Leaf className="pointer-events-none absolute left-16 top-24 h-28 w-28 opacity-50" />
-
-            <div>
-              <p className="text-2xl font-medium uppercase tracking-[0.3em] text-muted">
-                Voice archetype
-              </p>
-              <h2 className="mt-4 font-serif text-8xl font-semibold leading-none text-ink">
-                {result.archetype.name}
-              </h2>
-              <p className="mt-6 font-serif text-4xl italic text-fern">
-                {result.archetype.tagline}
-              </p>
-            </div>
-
-            <div>
-              <VoiceSignature
-                signature={result.signature}
-                height={150}
-                animate={false}
-              />
-            </div>
-
-            <div>
-              <p className="font-serif text-5xl leading-tight text-ink">
-                &ldquo;{result.signatureLine}&rdquo;
-              </p>
-              <div className="mt-8 flex items-center justify-between">
-                {tone ? (
-                  <span className="inline-flex items-center rounded-full border border-fern/30 bg-fern/10 px-6 py-2 text-3xl font-medium text-fern">
-                    {tone}
-                  </span>
-                ) : (
-                  <span />
-                )}
-                <span className="font-serif text-4xl font-semibold text-fern">
-                  lightfern.com
-                </span>
-              </div>
-            </div>
+        <div className="mt-8">
+          <div className="text-[0.7rem] font-mono uppercase tracking-[0.25em] text-fern/80">
+            Your voice archetype
           </div>
+          <h3 className="mt-2 font-serif text-4xl leading-none text-bone sm:text-5xl">
+            {voiceprint.archetype}
+          </h3>
+        </div>
+
+        <p className="mt-6 font-serif text-xl italic leading-snug text-bone/90 text-balance">
+          “{voiceprint.signature}”
+        </p>
+
+        <div className="mt-7 flex flex-wrap gap-2">
+          {voiceprint.traits.map((t) => (
+            <span
+              key={t}
+              className="rounded-full border border-fern/30 bg-fern/5 px-3 py-1 text-xs font-medium text-fern-bright"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-9 border-t border-white/10 pt-5 text-sm text-bone-muted">
+          This is your voice.{" "}
+          <span className="text-bone">Lightfern keeps it in every email.</span>
         </div>
       </div>
-
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
-        <button
-          onClick={download}
-          disabled={downloading}
-          className="min-h-[48px] rounded-full bg-fern px-6 text-base font-semibold text-paper transition hover:bg-fern/90 disabled:opacity-50"
-        >
-          {downloading ? "Rendering…" : "Download image"}
-        </button>
-        <button
-          onClick={copyLink}
-          className="min-h-[48px] rounded-full border border-fern/30 bg-card px-6 text-base font-semibold text-fern transition hover:bg-fern/5"
-        >
-          {copied ? "Link copied" : "Copy link"}
-        </button>
-      </div>
-    </div>
-  );
-}
+    );
+  },
+);

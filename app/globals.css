@@ -2,46 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: dark;
+}
+
 html,
 body {
-  background-color: #faf7f0;
-  color: #1a1d1a;
-  -webkit-font-smoothing: antialiased;
+  background-color: #07100c;
 }
 
-/* Reveal animation for the portrait — respects reduced motion. */
-@keyframes voiceprint-rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Lightfern ambient canopy — a soft fern-light glow behind everything */
+body {
+  background-image:
+    radial-gradient(60rem 40rem at 15% -10%, rgba(52, 211, 153, 0.10), transparent 60%),
+    radial-gradient(50rem 40rem at 100% 0%, rgba(15, 118, 110, 0.12), transparent 55%);
+  background-attachment: fixed;
 }
 
-.vp-rise {
-  animation: voiceprint-rise 0.6s ease both;
+::selection {
+  background: rgba(52, 211, 153, 0.28);
+  color: #f4f2ec;
 }
 
-@keyframes voiceprint-grow {
-  from {
-    transform: scaleY(0.05);
-  }
-  to {
-    transform: scaleY(1);
-  }
+/* Tidy, on-brand scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1a3026 transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #1a3026;
+  border-radius: 9999px;
 }
 
-.vp-bar {
-  transform-origin: bottom;
-  animation: voiceprint-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+.text-balance {
+  text-wrap: balance;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .vp-rise,
-  .vp-bar {
-    animation: none;
-  }
+/* Shimmer used on the loading state */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(26, 48, 38, 0.4) 25%,
+    rgba(52, 211, 153, 0.18) 50%,
+    rgba(26, 48, 38, 0.4) 75%
+  );
+  background-size: 200% 100%;
 }

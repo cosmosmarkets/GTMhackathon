@@ -1,0 +1,101 @@
+{
+  "note": "Role D hand-seeded champions (12, web-verified). B: load into the leads/champions store and score each with lib/prompts/champion-score.ts so the table is never thin on stage. Re-confirm each link is current before any outreach.",
+  "champions": [
+    {
+      "name": "David Perell",
+      "role": "Founder of Write of Passage; writer of Monday Musings / Friday Finds",
+      "handle": "@david_perell",
+      "link": "https://perell.com/",
+      "why": "He built an entire writing school around finding your distinct voice, making him a natural evangelist for a tool that keeps AI outreach sounding like the writer rather than generic.",
+      "archetype_tag": "craft-writer"
+    },
+    {
+      "name": "Ann Handley",
+      "role": "Chief Content Officer, MarketingProfs partner; author of Total Annarchy newsletter",
+      "handle": "annhandley.com/newsletter",
+      "link": "https://annhandley.com/",
+      "why": "Her whole brand is human, voice-driven writing in a B2B world drowning in dry copy, so an anti-slop tool that preserves authentic voice fits her thesis exactly.",
+      "archetype_tag": "craft-writer"
+    },
+    {
+      "name": "Josh Spector",
+      "role": "Creator of the For The Interested newsletter; creator-growth consultant",
+      "handle": "fortheinterested.com",
+      "link": "https://joshspector.com/",
+      "why": "He coaches creators on writing that drives action and could showcase Lightfern as a way to scale outreach without losing the personal tone that makes emails convert.",
+      "archetype_tag": "craft-writer"
+    },
+    {
+      "name": "Nathan Baugh",
+      "role": "Writer of the World Builders storytelling newsletter",
+      "handle": "worldbuilders.ai",
+      "link": "https://www.worldbuilders.ai/",
+      "why": "He teaches founders how storytelling drives sales, so a tool that keeps outreach voice-true rather than templated is directly on-message for his audience.",
+      "archetype_tag": "craft-writer"
+    },
+    {
+      "name": "Jason Bay",
+      "role": "Founder & CEO, Outbound Squad; outbound sales coach",
+      "handle": "@jasondbay",
+      "link": "https://www.linkedin.com/in/jasondbay",
+      "why": "He trains reps to write cold emails that book meetings precisely because they sound personal, making Lightfern's voice-preserving outbound a perfect fit for his playbook.",
+      "archetype_tag": "gtm-leader"
+    },
+    {
+      "name": "Justin Welsh",
+      "role": "Solopreneur writer; author of The Saturday Solopreneur newsletter",
+      "handle": "@thejustinwelsh",
+      "link": "https://www.justinwelsh.me/",
+      "why": "His 200k+ audience of solo operators needs to scale outreach without a team, and a tool that preserves their personal voice is exactly the leverage he champions.",
+      "archetype_tag": "gtm-leader"
+    },
+    {
+      "name": "Kieran Flanagan",
+      "role": "SVP Agentic GTM; co-host of Marketing Against the Grain; writes The AI Marketing Generalist",
+      "handle": "@kieranjflanagan",
+      "link": "https://www.kieranflanagan.io/about",
+      "why": "He writes constantly about applying AI to GTM without losing brand quality, making him an ideal voice to validate an anti-slop outreach tool to marketers.",
+      "archetype_tag": "gtm-leader"
+    },
+    {
+      "name": "Nicolas Cole",
+      "role": "Co-founder of Ship 30 for 30; writer and ghostwriting expert",
+      "handle": "Ship30for30.com",
+      "link": "https://ship30for30.com/",
+      "why": "He has taught thousands to write in their own distinct style and built a ghostwriting business around capturing voice, so voice-preserving AI is squarely in his wheelhouse.",
+      "archetype_tag": "ai-educator"
+    },
+    {
+      "name": "Rowan Cheung",
+      "role": "Founder of The Rundown AI (largest AI newsletter)",
+      "handle": "rowancheung.com",
+      "link": "https://rowancheung.com/",
+      "why": "As a leading AI educator, he highlights practical AI tools daily, and an anti-slop tool that solves the biggest complaint about AI writing is a strong feature for his audience.",
+      "archetype_tag": "ai-educator"
+    },
+    {
+      "name": "Amanda Natividad",
+      "role": "VP of Marketing, SparkToro; content educator (zero-click marketing)",
+      "handle": "sparktoro.com",
+      "link": "https://sparktoro.com/",
+      "why": "She teaches creators to build audiences through distinctive, human content, making her a credible champion for a tool that fights generic AI-generated outreach.",
+      "archetype_tag": "ai-educator"
+    },
+    {
+      "name": "Packy McCormick",
+      "role": "Writer of Not Boring; GP of Not Boring Capital",
+      "handle": "@notboring",
+      "link": "https://www.notboring.co/",
+      "why": "His entire brand is unmistakably voiced tech writing, so a tool that preserves a writer's signature voice at scale resonates with both his taste and his investor lens.",
+      "archetype_tag": "vc-writer"
+    },
+    {
+      "name": "Anu Atluru",
+      "role": "Founder; writer of Working Theorys; a16z Media Fellow",
+      "handle": "@anu",
+      "link": "https://www.workingtheorys.com/",
+      "why": "She writes taste-forward essays on creativity and authenticity in the age of AI, making her a sharp early voice for a tool positioned explicitly against AI slop.",
+      "archetype_tag": "vc-writer"
+    }
+  ]
+}

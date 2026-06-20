@@ -82,7 +82,7 @@ export async function generateVoiceprintLLM(text: string): Promise<Voiceprint | 
   try {
     const res = await client.messages.create({
       model: MODEL,
-      max_tokens: 2048,
+      max_tokens: 4096, // headroom: adaptive thinking spends tokens before the JSON
       thinking: { type: "adaptive" },
       system: [
         {

@@ -2,6 +2,7 @@ import { buildChampionTable, type ChampionRow } from "@/lib/champion/table";
 import { Trophy, ArrowLeft, Sparkles, Users } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60; // scores leads via Opus on render; needs room beyond the default timeout
 export const metadata = { title: "Champion table — Lightfern" };
 
 function Bar({ label, value }: { label: string; value: number }) {

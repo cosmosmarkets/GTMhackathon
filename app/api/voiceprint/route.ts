@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { generateVoiceprint } from "@/lib/voiceprint";
 import { generateVoiceprintLLM } from "@/lib/prompts/voiceprint";
 
+// Opus + adaptive thinking can take 15–40s; raise the serverless cap so the
+// call isn't killed mid-flight (which would silently fall back to the local engine).
+export const maxDuration = 60;
+
 // POST /api/voiceprint
 // Body: { text: string }
 // Returns: Voiceprint (see lib/types.ts)

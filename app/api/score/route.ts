@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { scoreChampion, type ScoreInput } from "@/lib/prompts/champion-score";
 
+export const maxDuration = 60; // Opus + thinking can exceed the default serverless timeout
+
 // POST /api/score  — REFERENCE endpoint for Role B (champion table).
 // Body: { writing_sample, role, handle, email } → ChampionScore.
 //

@@ -80,7 +80,7 @@ export async function scoreChampion(lead: ScoreInput): Promise<ChampionScore | n
   try {
     const res = await client.messages.create({
       model: MODEL,
-      max_tokens: 1024,
+      max_tokens: 3072, // headroom: adaptive thinking spends tokens before the JSON
       thinking: { type: "adaptive" },
       system: [
         { type: "text", text: CHAMPION_SYSTEM, cache_control: { type: "ephemeral" } },

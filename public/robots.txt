@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gtmhackathon.vercel.app/sitemap.xml
+Sitemap: https://lightfernlink.vercel.app/sitemap.xml

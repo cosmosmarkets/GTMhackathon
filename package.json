@@ -1,0 +1,6 @@
+{
+  "name": "atlas",
+  "version": "1.4.0",
+  "type": "module",
+  "scripts": { "dev": "node src/server/index.ts", "test": "node --test", "bench": "node bench/pack.mjs" }
+}
